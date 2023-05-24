@@ -10,5 +10,6 @@
         <BaseIntermediateOutputPath>$(RootFolder)artifacts/obj/$(MSBuildProjectName)</BaseIntermediateOutputPath>
         <IsPackable>false</IsPackable>
         <IsPublishable>false</IsPublishable>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
 </Project>
