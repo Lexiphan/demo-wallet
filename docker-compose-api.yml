@@ -1,0 +1,12 @@
+name: demo-wallet
+
+services:
+  demo-wallet-api:
+    container_name: demo-wallet-api
+    build:
+      context: .
+      target: api-runtime
+    ports:
+      - "2588:80"
+    environment:
+      URLS: "http://0.0.0.0:80"

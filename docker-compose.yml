@@ -1,0 +1,11 @@
+name: demo-wallet
+
+services:
+  demo-wallet-postgres:
+    container_name: demo-wallet-postgres
+    image: "postgres:15.3-alpine3.18"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "psqldevpwd"
+    ports:
+      - "5432:5432"

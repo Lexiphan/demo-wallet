@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Description>Demo Wallet Application</Description>
+        <RootNamespace>Greentube.DemoWallet.$(MSBuildProjectName)</RootNamespace>
+        <AssemblyName>Greentube.DemoWallet.$(MSBuildProjectName)</AssemblyName>
+        <RootFolder>$([MSBuild]::EnsureTrailingSlash('$(MSBuildThisFileDirectory)'))</RootFolder>
+        <BaseIntermediateOutputPath>$(RootFolder)artifacts/obj/$(MSBuildProjectName)</BaseIntermediateOutputPath>
+        <IsPackable>false</IsPackable>
+        <IsPublishable>false</IsPublishable>
+    </PropertyGroup>
+</Project>
