@@ -37,7 +37,7 @@ public class TransactionsController
     }
 
     /// <summary>
-    /// Top ups player's balance.
+    /// Creates Win transaction which increases player's balance.
     /// </summary>
     /// <response code="404">Player with the specified ID was not found</response>
     [HttpPost("win")]
@@ -54,8 +54,13 @@ public class TransactionsController
     }
 
     /// <summary>
-    /// Top ups player's balance.
+    /// Creates Bet transaction which decreases player's balance.
     /// </summary>
+    /// <remarks>
+    /// Note that this endpoint fails with 402 status code if player's balance is not sufficient to make a requested
+    /// bet. Note, that Player's `BalanceLimit` is taken into account when checking this requirement. The balance is
+    /// considered insufficient if current `Balance` minus bet `Amount` is less than `BalanceLimit`.
+    /// </remarks>
     /// <response code="402">Player doesn't have enough balance to perform the operation</response>
     /// <response code="404">Player with the specified ID was not found</response>
     [HttpPost("bet")]
