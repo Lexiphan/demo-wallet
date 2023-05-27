@@ -36,7 +36,7 @@ public class Player : Entity
         Transactions.Add(new Transaction(this, TransactionType.TopUp, amount, utcNow));
     }
 
-    public Player(string name, decimal balanceLimit)
+    public Player(string name, decimal balanceLimit, DateTime? createdOn = null) : base(createdOn)
     {
         Name = name;
         BalanceLimit = balanceLimit;

@@ -30,13 +30,14 @@ public class TestController : ControllerBase
             {
                 for (var i = args.NumberOfPlayers; i > 0; i--)
                 {
-                    var player = new Player(
-                        $"{RandomElement(Names)} {RandomElement(Surnames)}",
-                        Random.Shared.Next(2) > 0 ? 0 : -Random.Shared.Next(51));
-
                     var now = DateTime.UtcNow -
                               Random.Shared.NextDouble() * TimeSpan.FromDays(335) -
                               TimeSpan.FromDays(30);
+
+                    var player = new Player(
+                        $"{RandomElement(Names)} {RandomElement(Surnames)}",
+                        Random.Shared.Next(2) > 0 ? 0 : -Random.Shared.Next(51),
+                        now - RandomTime);
 
                     for (var j = args.NumberOfTransactions; j > 0; now += (DateTime.UtcNow - now) / Math.Max(j, 1), j--)
                     {
