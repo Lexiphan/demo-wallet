@@ -1,8 +1,14 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Greentube.DemoWallet.Api;
+using Greentube.DemoWallet.Application;
+using Greentube.DemoWallet.Database;
+using Greentube.DemoWallet.Database.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ------------------- Configure configuration ----------------------
 
 // This file is added to .gitignore and .dockerignore files,
 // thus every developer will have chance to set his own configuration for any testing purposes
@@ -10,7 +16,9 @@ builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, relo
 
 // --------------------- Configure services -------------------------
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(
+        opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false)));
 builder.Services.AddApiVersioning(options => options.DefaultApiVersion = new ApiVersion(1, 0));
 builder.Services.AddVersionedApiExplorer(options =>
 {
@@ -19,6 +27,11 @@ builder.Services.AddVersionedApiExplorer(options =>
 });
 builder.Services.AddSwaggerGen(opts => opts.IncludeXmlComments(Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, "xml"), true));
 builder.Services.ConfigureOptions<ConfigureVersioningSwaggerOptions>();
+
+builder.Services
+    .AddAutoMapper(Assembly.GetExecutingAssembly())
+    .AddWalletDatabase()
+    .AddApplicationServices();
 
 // ---------------- Configure application pipeline ------------------
 
@@ -39,5 +52,13 @@ app.MapFallback(async (HttpContext httpContext, CancellationToken ct) =>
     httpContext.Response.StatusCode = 404;
     await httpContext.Response.WriteAsync("404 Not Found", ct);
 });
+
+// ------------------------------ Run -------------------------------
+
+// First ensure all migrations are applied to the DB
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    await scope.ServiceProvider.GetRequiredService<IWalletDatabase>().MigrateAsync();
+}
 
 app.Run();
