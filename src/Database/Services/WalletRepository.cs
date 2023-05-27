@@ -27,14 +27,6 @@ internal class WalletRepository : IWalletRepository, IDisposable
             .FirstOrDefaultAsync(ct);
     }
 
-    // public IAsyncEnumerable<Transaction> GetPlayerTransactions(long playerId, TransactionQueryOptions options)
-    // {
-    //     return Context.Transactions
-    //         .Where(x => x.PlayerId == playerId)
-    //         .Apply(options)
-    //         .AsAsyncEnumerable();
-    // }
-
     public IQueryable<Player> Players => Context.Players.AsQueryable();
     public IQueryable<Transaction> Transactions => Context.Transactions.AsQueryable();
 
